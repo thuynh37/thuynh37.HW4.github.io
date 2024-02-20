@@ -3,30 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joe's Hotdog Stand Order</title>
+<title>Joe's Hotdog Stand</title>
+<style>
+
+  body {
+    font-family: Arial, sans-serif;
+    background-image: url('hotdog.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .order-summary {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+  }
+  h2 {
+    color: #333;
+  }
+  p {
+    margin: 5px 0;
+    color: #666;
+  }
+  .red { color: red; }
+  .gold { color: gold; }
+  .brown { color: brown; }
+  .orange { color: orange; }
+  
+  .bold{
+    font-weight: bold;
+  }
+
+</style>
 </head>
 <body>
+<div class="order-summary">
+    <h2>Order Summary</h2>
+    <p><span class="red bold">Hotdogs:</span> <span id="hotdogs" class="red bold"></span></p>
+    <p><span class="gold bold">Fries:</span> <span id="fries" class="gold bold"></span></p>
+    <p><span class="brown bold">Sodas:</span> <span id="sodas" class="brown bold"></span></p>
+    <p><span class="orange bold">Subtotal before discount:</span> <span id="subtotalBeforeDiscount" class="orange bold"></span></p>
+    <p><span class="orange bold">Discount:</span> <span id="discount" class="orange bold"></span></p>
+    <p><span class="orange bold">Subtotal after discount:</span> <span id="subtotalAfterDiscount" class="orange bold"></span></p>
+    <p><span class="orange bold">Tax:</span> <span id="tax" class="orange bold"></span></p>
+    <h2>Total:</span> <span id="total"></span></h2>
+</div>
+
 <script>
 
     const hotdog = 4.65;
     const fries = 3.75;
     const soda = 1.89;
 
-    let numDogs = prompt("How many hotdogs do you want?");
-    let numFries = prompt("How many fries do you want?");
-    let numSoda = prompt("How many sodas do you want?");
+    let numDogs = parseInt(prompt("How many hotdogs do you want?"));
+    let numFries = parseInt(prompt("How many fries do you want?"));
+    let numSoda = parseInt(prompt("How many sodas do you want?"));
 
 
-    function showMoney(num){
+    function showMoney(num) {
+
         let num_round = Math.round(num * 100) / 100;
         let string_round = num_round.toString();
-        if(num_round.indexOf('.') === -1){ //Adds 2 decimals if num is integer
+
+        // If the number is an integer, add two decimal places
+        if (string_round.indexOf('.') === -1) {
             string_round += '.00';
-        }
+        } 
         else{
-            let index = string_round.indexOf('.');
-            let num_decimals = string_round.length - index - 1;
-            if(num_decimals === 1){
+        // If the number has only one decimal place, add an additional 0 to represent two decimal places
+        let index = string_round.indexOf('.');
+
+        let num_decimals = string_round.length - index - 1;
+            if (num_decimals === 1){
                 string_round += '0';
             }
         }
@@ -45,15 +101,14 @@
 
     let total = subtotal + tax;
 
-    document.write("<h2>Order Summary</h2>");
-    document.write("<p>Hotdogs: " + numDogs + " ($" + showMoney(numDogs * hotdog) + ")</p>");
-    document.write("<p>Fries: " + numFries + " ($" + showMoney(numFries * fries) + ")</p>");
-    document.write("<p>Sodas: " + numSoda + " ($" + showMoney(numSoda * soda) + ")</p>");
-    document.write("<p>Subtotal before discount: $" + showMoney(subtotal + discount) + "</p>");
-    document.write("<p>Discount: $" + showMoney(discount) + "</p>");
-    document.write("<p>Subtotal after discount: $" + showMoney(subtotal) + "</p>");
-    document.write("<p>Tax: $" + showMoney(tax) + "</p>");
-    document.write("<h3>Total: $" + showMoney(total) + "</h3>");
+    document.getElementById("hotdogs").textContent = numDogs + " ($" + showMoney(numDogs * hotdog) + ")";
+    document.getElementById("fries").textContent = numFries + " ($" + showMoney(numFries * fries) + ")";
+    document.getElementById("sodas").textContent = numSoda + " ($" + showMoney(numSoda * soda) + ")";
+    document.getElementById("subtotalBeforeDiscount").textContent = "$" + showMoney(subtotal + discount);
+    document.getElementById("discount").textContent = "$" + showMoney(discount);
+    document.getElementById("subtotalAfterDiscount").textContent = "$" + showMoney(subtotal);
+    document.getElementById("tax").textContent = "$" + showMoney(tax);
+    document.getElementById("total").textContent = "$" + showMoney(total);
 
 </script>
 </body>
